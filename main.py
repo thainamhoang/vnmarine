@@ -33,8 +33,8 @@ if len(filtered) == 1:
     with st.container():
         data = filtered.iloc[0]
         for col, row in data.items():
-            if col == "Link":
-                print(row)
+            if col == "Link" and isinstance(row, str):
+                print(f"xxx: {row}, {type(row)}")
                 st.image(row, caption="Image")
             else:
                 st.write(f"{col}: {row}")
