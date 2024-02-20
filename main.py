@@ -35,6 +35,8 @@ if len(filtered) == 1:
         for col, row in data.items():
             if col == "Link" and isinstance(row, str):
                 print(f"xxx: {row}, {type(row)}")
-                st.image(row, caption="Image")
+                split = row.split(",")
+                for s in split:
+                    st.image(s, caption="")
             else:
                 st.write(f"{col}: {row}")
