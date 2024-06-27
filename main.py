@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 DOCUMENT_ID = "1GaNK6xiOjMafcZ5DdEy_Hato-sol-BCukgJyiejT6Lo"
-TAB_NAME = "Sheet1"
+TAB_NAME = "Sheet2"
 URL = f"https://docs.google.com/spreadsheets/d/{DOCUMENT_ID}/gviz/tq?tqx=out:csv&sheet={TAB_NAME}"
 
 
@@ -42,10 +42,21 @@ search_button = st.sidebar.button("Tìm kiếm")
 
 if search_button:
     filtered = df[df["Mã hàng"].str.contains(search_query, case=False)]
-    filtered = filtered[filtered["Kho"] == selected_value]
+    if cat_selected_val:
+        filtered = filtered[filtered["Category"] == cat_selected_val]
+    if brand_selected_val:
+        filtered = filtered[filtered["Brand"] == brand_selected_val]
+    if country_selected_val:
+        filtered = filtered[filtered["Country"] == country_selected_val]
+    if kho_selected_val:
+        filtered = filtered[filtered["Kho"] == kho_selected_val]
+    if brand_selected_val:
+        filtered = filtered[filtered["Brand"] == brand_selected_val]
+    if country_selected_val:
+        filtered = filtered[filtered["Country"] == country_selected_val]
 else:
     filtered = df
-st.dataframe(filtered, use_container_width=True)
+st.dataframe(filtered.iloc[:, :8].reset_index(drop=True), use_container_width=True)
 
 if len(filtered) == 1:
     with st.container():
