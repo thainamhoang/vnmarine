@@ -32,11 +32,6 @@ cat_selected_val = st.sidebar.selectbox("Chọn Loại", options=cat_dd_val)
 brand_dd_val = df["Brand"].unique()
 brand_selected_val = st.sidebar.selectbox("Chọn Nhãn hiệu", options=brand_dd_val)
 
-# Country
-country_dd_val = df["Country"].unique()
-country_selected_val = st.sidebar.selectbox(
-    "Chọn Nước sản xuất", options=country_dd_val
-)
 
 search_button = st.sidebar.button("Tìm kiếm")
 
@@ -46,14 +41,9 @@ if search_button:
         filtered = filtered[filtered["Category"] == cat_selected_val]
     if brand_selected_val:
         filtered = filtered[filtered["Brand"] == brand_selected_val]
-    if country_selected_val:
-        filtered = filtered[filtered["Country"] == country_selected_val]
     if kho_selected_val:
         filtered = filtered[filtered["Kho"] == kho_selected_val]
-    if brand_selected_val:
-        filtered = filtered[filtered["Brand"] == brand_selected_val]
-    if country_selected_val:
-        filtered = filtered[filtered["Country"] == country_selected_val]
+
 else:
     filtered = df
 st.dataframe(filtered.iloc[:, :8].reset_index(drop=True), use_container_width=True)
