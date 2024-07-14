@@ -21,32 +21,35 @@ search_query = st.sidebar.text_input("Nhập mã hàng hoá")
 
 # Kho
 # Remove nan kho
-kho_dd_val = df["Kho"].unique()
-kho_selected_val = st.sidebar.selectbox("Chọn Kho", options=kho_dd_val)
+kho_dd_val = df["Kho"].dropna().unique()
+kho_selected_val = st.sidebar.selectbox("Chọn Kho", options=[""] + list(kho_dd_val))
 
 # Category
-cat_dd_val = df["Category"].unique()
-cat_selected_val = st.sidebar.selectbox("Chọn Loại", options=cat_dd_val)
+cat_dd_val = df["Category"].dropna().unique()
+cat_selected_val = st.sidebar.selectbox("Chọn Loại", options=[""] + list(cat_dd_val))
 
 # Brand
-brand_dd_val = df["Brand"].unique()
-brand_selected_val = st.sidebar.selectbox("Chọn Nhãn hiệu", options=brand_dd_val)
+brand_dd_val = df["Brand"].dropna().unique()
+brand_selected_val = st.sidebar.selectbox(
+    "Chọn Nhãn hiệu", options=[""] + list(brand_dd_val)
+)
 
 
 search_button = st.sidebar.button("Tìm kiếm")
 
 if search_button:
-    filtered = df[df["Mã hàng"].str.contains(search_query, case=False)]
+    filtered = df
+    if search_query:
+        filtered = df[df["Mã hàng"].str.contains(search_query, case=False)]
     if cat_selected_val:
         filtered = filtered[filtered["Category"] == cat_selected_val]
     if brand_selected_val:
         filtered = filtered[filtered["Brand"] == brand_selected_val]
     if kho_selected_val:
         filtered = filtered[filtered["Kho"] == kho_selected_val]
-
 else:
     filtered = df
-st.dataframe(filtered.iloc[:, :8].reset_index(drop=True), use_container_width=True)
+st.dataframe(filtered.iloc[:, :12].reset_index(drop=True), use_container_width=True)
 
 if len(filtered) == 1:
     with st.container():
